@@ -11,6 +11,7 @@
 #include <sp2/graphics/textureManager.h>
 #include <sp2/multiplayer/server.h>
 #include <sp2/multiplayer/client.h>
+#include <sp2/multiplayer/discovery.h>
 #include <sp2/scene/scene.h>
 #include <sp2/scene/node.h>
 #include <sp2/scene/camera.h>
@@ -70,15 +71,18 @@ int main(int argc, char** argv)
 
     if (argc > 1)
     {
-        sp::io::http::Request request("daid.eu", 32032);
-        auto response = request.get("/game/list/geroniwar");
-        std::string err;
-        auto json = json11::Json::parse(response.body, err);
-        LOG(Debug, json[0]["key"].string_value());
-
-        sp::multiplayer::Client* client = new sp::multiplayer::Client("geroniwar", 0);
-        client->connectBySwitchboard("daid.eu", 32032, json[0]["key"].string_value());
-        multiplayer_base = client;
+        sp::multiplayer::Discovery discovery("geroniwar");
+        discovery.scanSwitchboard("daid.eu", 32032);
+        for(auto& info : discovery.getServers())
+        {
+            if (info.type == sp::multiplayer::Discovery::ServerInfo::Type::Switchboard)
+            {
+                sp::multiplayer::Client* client = new sp::multiplayer::Client("geroniwar", 0);
+                client->connectBySwitchboard(info.switchboard_hostname, info.switchboard_port, info.switchboard_key);
+                multiplayer_base = client;
+                break;
+            }
+        }
     }
     else
     {
