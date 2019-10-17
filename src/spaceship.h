@@ -22,10 +22,10 @@ public:
     bool isAlive() { return alive; }
     
     void setIcon(sp::string name);
-    void setIndex(int idx);
+    void setTeam(int idx);
 
     sp::P<sp::Node> icon;
-    int index;
+    int team;
     Controls* controls = nullptr;
     bool engine_active = false;
     uint32_t server_position_counter = 1;

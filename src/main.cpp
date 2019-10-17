@@ -2,6 +2,7 @@
 #include <sp2/window.h>
 #include <sp2/logging.h>
 #include <sp2/io/directoryResourceProvider.h>
+#include <sp2/io/zipResourceProvider.h>
 #include <sp2/graphics/gui/scene.h>
 #include <sp2/graphics/gui/theme.h>
 #include <sp2/graphics/scene/graphicslayer.h>
@@ -23,6 +24,7 @@
 #include "spaceship.h"
 #include "controls.h"
 #include "main.h"
+#include "gameManager.h"
 
 
 Controls controller[2]{{0}, {1}};
@@ -38,12 +40,13 @@ int main(int argc, char** argv)
 
     //Create resource providers, so we can load things.
     new sp::io::DirectoryResourceProvider("resources");
+    new sp::io::ZipResourceProvider(argv[0]);
 
     //Disable or enable smooth filtering by default, enabling it gives nice smooth looks, but disabling it gives a more pixel art look.
     sp::texture_manager.setDefaultSmoothFiltering(false);
 
     //Create a window to render on, and our engine.
-    window = new sp::Window(4.0/3.0);
+    window = new sp::Window(sp::Vector2f(0.2, 0.2), 4.0/3.0);
 #ifndef DEBUG
     window->setFullScreen(true);
     window->hideCursor();
@@ -74,25 +77,19 @@ int main(int argc, char** argv)
         LOG(Debug, json[0]["key"].string_value());
 
         sp::multiplayer::Client* client = new sp::multiplayer::Client("geroniwar", 0);
-        //client->connect("127.0.0.1", 32032);
         client->connectBySwitchboard("daid.eu", 32032, json[0]["key"].string_value());
         multiplayer_base = client;
     }
     else
     {
         sp::multiplayer::Server* server = new sp::multiplayer::Server("geroniwar", 0);
-        server->listen(32032);
+        //server->listen(32032);
         server->listenOnSwitchboard("daid.eu", 32032, "GW", true);
         multiplayer_base = server;
-        Spaceship* ss = new Spaceship(level_scene->getRoot());
-        ss->client_id = 0;
-        ss->controls = &controller[0];
-        ss->setIndex(0);
 
-        ss = new Spaceship(level_scene->getRoot());
-        ss->client_id = 1;
-        ss->setIndex(1);
-        ss->setPosition(sp::Vector2d(50, 0));
+        GameManager* gm = new GameManager(level_scene->getRoot());
+        gm->joinTeam(0, 0, 0);
+        gm->joinTeam(0, 1, 1);
     }
 
     engine->run();

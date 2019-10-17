@@ -22,8 +22,8 @@ public:
     {
         sp::Vector2d position = ship.getPosition2D();
         double rotation = ship.getRotation2D();
-        
-        last_position += last_velocity * double(time_delta);    
+
+        last_position += last_velocity * double(time_delta);
         sp::Vector2d diff = last_position - position;
 
         if (diff.dot(diff) < 0.1 * 0.1)
@@ -123,7 +123,7 @@ void Spaceship::onFixedUpdate()
 
     double angular_velocity = getAngularVelocity2D() * 0.95;
     sp::Vector2d velocity = getLinearVelocity2D();
-    //velocity += sp::Vector2d(0, -0.15);
+    velocity += sp::Vector2d(0, -0.15);
 
     if (alive && controls)
     {
@@ -214,9 +214,9 @@ void Spaceship::setIcon(sp::string name)
     }
 }
 
-void Spaceship::setIndex(int idx)
+void Spaceship::setTeam(int idx)
 {
-    this->index = idx;
+    this->team = idx;
 
     switch(idx)
     {
@@ -267,7 +267,7 @@ void Spaceship::activateHook()
 
 void Spaceship::activateSelfDestruct()
 {
-    LOG(Debug, "Initiating self destruct for player", index);
+    LOG(Debug, "Initiating self destruct for player");
     explode();
 }
 

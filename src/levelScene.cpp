@@ -1,13 +1,5 @@
 #include "levelScene.h"
-//#include "main.h"
-//#include "lineNodeBuilder.h"
 #include "spaceship.h"
-//#include "door.h"
-//#include "laser.h"
-//#include "physicsObject.h"
-//#include "trigger.h"
-//#include "levelLoader.h"
-//#include "levelGenerator.h"
 
 #include <json11/json11.hpp>
 #include <sp2/random.h>
