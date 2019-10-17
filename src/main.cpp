@@ -26,6 +26,7 @@
 #include "controls.h"
 #include "main.h"
 #include "gameManager.h"
+#include "camera.h"
 
 
 Controls controller[2]{{0}, {1}};
@@ -47,7 +48,7 @@ int main(int argc, char** argv)
     sp::texture_manager.setDefaultSmoothFiltering(false);
 
     //Create a window to render on, and our engine.
-    window = new sp::Window(sp::Vector2f(0.2, 0.2), 4.0/3.0);
+    window = new sp::Window(4.0/3.0);
 #ifndef DEBUG
     window->setFullScreen(true);
     window->hideCursor();
@@ -65,8 +66,7 @@ int main(int argc, char** argv)
 
     LevelScene* level_scene = new LevelScene();
     level_scene->enable();
-    sp::Camera* camera = new sp::Camera(level_scene->getRoot());
-    camera->setOrtographic(sp::Vector2d(80, 60));
+    Camera* camera = new Camera(level_scene->getRoot());
     level_scene->setDefaultCamera(camera);
 
     if (argc > 1)
