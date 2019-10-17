@@ -47,6 +47,4 @@ void Explosion::setup(sp::Vector2d position, sp::Vector2d start_velocity, sp::Co
         parameters.lifetime = sp::Tween<double>::easeInCubic(sp::random(0.0, 1.0), 0.0, 1.0, 0.3, 3.0);
         emit(parameters);
     }
-    
-    sp::P<LevelScene>(getScene())->doCameraShake();
 }

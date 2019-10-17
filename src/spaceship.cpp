@@ -151,7 +151,7 @@ void Spaceship::onFixedUpdate()
         }
     }
 
-    if (engine_active)
+    if (alive && engine_active)
     {
         sp::Vector2f particle_vector = sp::Vector2f(sp::random(-0.2, 0.2), 1).rotate(getRotation2D()) * sp::random(0.9, 1.1);
         sp::ParticleEmitter::Parameters parameters;

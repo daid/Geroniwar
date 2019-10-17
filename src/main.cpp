@@ -65,9 +65,9 @@ int main(int argc, char** argv)
     window->addLayer(scene_layer);
 
     LevelScene* level_scene = new LevelScene();
-    level_scene->enable();
     Camera* camera = new Camera(level_scene->getRoot());
     level_scene->setDefaultCamera(camera);
+    level_scene->loadLevel("level");
 
     if (argc > 1)
     {
