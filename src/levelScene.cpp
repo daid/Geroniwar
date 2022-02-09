@@ -1,7 +1,7 @@
 #include "levelScene.h"
 #include "spaceship.h"
 
-#include <json11/json11.hpp>
+#include <nlohmann/json.hpp>
 #include <sp2/random.h>
 #include <sp2/tween.h>
 #include <sp2/graphics/textureManager.h>
@@ -28,13 +28,12 @@ void LevelScene::loadLevel(sp::string name)
         node->render_data.color = sp::Color(0.8, 1.0, 0.8);
     }
     {
-        std::string err;
-        json11::Json json = json11::Json::parse(sp::io::ResourceProvider::get(name + ".json")->readAll(), err);
+        nlohmann::json json = nlohmann::json::parse(sp::io::ResourceProvider::get(name + ".json")->readAll());
 
-        float tw = json["tilewidth"].number_value();
-        float th = json["tileheight"].number_value();
-        float offset_x = json["width"].number_value() / 2.0;
-        float offset_y = json["height"].number_value() / 2.0;
+        float tw = json["tilewidth"];
+        float th = json["tileheight"];
+        float offset_x = float(json["width"]) / 2.0;
+        float offset_y = float(json["height"]) / 2.0;
 
         view_range.x = offset_x;
         view_range.y = offset_y;

@@ -19,8 +19,6 @@
 #include <sp2/io/subprocess.h>
 #include <sp2/io/http/request.h>
 
-#include <json11/json11.hpp>
-
 #include "levelScene.h"
 #include "spaceship.h"
 #include "controls.h"
