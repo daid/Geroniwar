@@ -48,10 +48,10 @@ void LevelScene::onUpdate(float delta)
 {
 }
 
-void LevelScene::onEnable()
+void LevelScene::onEnable(uint32_t flags)
 {
 }
 
-void LevelScene::onDisable()
+void LevelScene::onDisable(uint32_t flags)
 {
 }
